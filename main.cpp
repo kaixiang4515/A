@@ -3,6 +3,7 @@
 #include <cstdlib> /* 亂數相關函數 */
 #include <ctime>   /* 時間相關函數 */
 #include <algorithm>
+#include <string>
 #include <vector>
 //#include <iomanip>
 
@@ -45,12 +46,7 @@ void bubble_sort(T& v, int len){
         }
     }
 }
-/*
-template <class T>
-class myTclass{
-    T v
-};
-*/
+
 template <class T1, class T2>
 void merge_sort(T1& v, int f, int e, T2 tmp){
     if(f<e){
@@ -71,7 +67,7 @@ void merge_sort(T1& v, int f, int e, T2 tmp){
 }
 
 //vector<int> a,b;
-int a[1000000],b[1000000];
+string a[1000000],b[1000000];
 
 int main(){
     #ifdef LOCAL
@@ -83,15 +79,15 @@ int main(){
     //cout << fixed << setprecision(3);
 
     srand( time(NULL) );
-    int n,t;
+    /*int n,t;
     bool ok = 1;
     cin >> t >> n;
     while(t--){
         //a.clear(), b.clear();
         REP(i,n){
             int m = rand() % 99 + 1;
-            /*a.push_back(m);
-            b.push_back(m);*/
+            //a.push_back(m);
+            //b.push_back(m);
             a[i]=b[i]=m;
         }
         merge_sort(a,0,n-1,a[0]);
@@ -106,8 +102,40 @@ int main(){
         if(ok) cout << "correct!\n";
         else cout << "error!!\n";
     }
-    if(ok) cout << "correct!\n";
+    if(ok) cout << "correct!\n";*/
 
+    const int n = 1000000;
+    clock_t ct;
+    REP(i,n){
+        string ts(6,0);
+        REP(j,6){
+            int t = rand() %52;
+            if(t<26) ts[j] = 'A'+t;
+            else ts[j] = 'a'+t-26;
+        }
+        a[i] = b[i] = ts;
+        //cout << a[i] << " ";
+    }
+    //cout << "\n\n====================================\n\n";
+    ct = clock();
+    merge_sort(a,0,n-1,a[0]);
+    ct = clock() - ct;
+    sort(b,b+n);
+    /*REP(i,n) cout << a[i] << " ";
+    cout << "\n\n";
+    REP(i,n) cout << b[i] << " ";
+    cout << "\n\n";*/
+    bool ok = 1;
+    REP(i,n){
+        if(a[i] != b[i]){
+            ok = 0;
+            break;
+        }
+    }
+    if(ok) cout << "OK\n";
+    else cout << "ERROR\n";
+
+    cout << "used time: " << 1.0*ct/CLOCKS_PER_SEC << "\n";
 
     return 0;
 }
