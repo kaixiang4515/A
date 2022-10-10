@@ -1,8 +1,0 @@
-# depslib dependency file v1.0
-1665418417 source:c:\github\performance analysis\main.cpp
-	<iostream>
-	<cstdlib>
-	<ctime>
-	<algorithm>
-	<vector>
-
