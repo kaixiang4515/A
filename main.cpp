@@ -1,15 +1,13 @@
-//#include <bits/stdc++.h>
 #include <iostream>
 #include <cstdlib> /* 亂數相關函數 */
 #include <ctime>   /* 時間相關函數 */
 #include <algorithm>
 #include <string>
 #include <vector>
-//#include <iomanip>
+#include <array>
+#include <iomanip>
+#include <windows.h>
 
-//#define LOCAL
-#define Inf 0x3f3f3f3f
-#define NeInf 0xc0c0c0c0
 #define REP(i,n) for(int i=0;i<n;++i)
 
 using namespace std;
@@ -17,7 +15,8 @@ using namespace std;
 template <class T>
 void insertion_sort(T& v, int len){
     for(int i=1;i<len;++i){
-        int j=i,t=v[i];
+        int j=i;
+        auto t=v[i];
         while(j && t<v[j-1]){
             v[j] = v[j-1];
             --j;
@@ -30,7 +29,7 @@ template <class T>
 void selection_sort(T& v, int len){
     for(int i=0;i<len-1;++i){
         int t=i;
-        for(int j=i+1;j<v.size();++j)
+        for(int j=i+1;j<len;++j)
             if(v[j] < v[t]) t=j;
 
         swap(v[t],v[i]);
@@ -66,76 +65,48 @@ void merge_sort(T1& v, int f, int e, T2 tmp){
     }
 }
 
-//vector<int> a,b;
-string a[1000000],b[1000000];
+//float a[500000];
+//vector<float> a;
+array<float,500000> a;
 
 int main(){
-    #ifdef LOCAL
-        //freopen("./file/in.txt","r",stdin);
-        //freopen("./file/out.txt","w",stdout);
-    #endif // LOCAL
-    //ios::sync_with_stdio(0);
-    //cin.tie(0);
-    //cout << fixed << setprecision(3);
-
+    freopen("./file/out.txt","w",stdout);
+    cout << fixed << setprecision(8);
     srand( time(NULL) );
-    /*int n,t;
-    bool ok = 1;
-    cin >> t >> n;
-    while(t--){
-        //a.clear(), b.clear();
-        REP(i,n){
-            int m = rand() % 99 + 1;
-            //a.push_back(m);
-            //b.push_back(m);
-            a[i]=b[i]=m;
-        }
-        merge_sort(a,0,n-1,a[0]);
-        sort(b, b+n);
-        REP(i,n){
-            if(a[i] != b[i]){
-                ok = false;
-                break;
+
+    const int nums[11]={10,20,30,40,50,60,100000,200000,300000,400000,500000};
+
+    for(auto n:nums){
+        clock_t ct,cs=0;
+        int cnt=1; //重複次數
+        if(n<100) cnt = 5000;
+        REP(k,cnt){
+            REP(i,n){
+                /*string ts(6,0);
+                REP(j,6){
+                    int t = rand() %52;
+                    if(t<26) ts[j] = 'A'+t;
+                    else ts[j] = 'a'+t-26;
+                }*/
+                a[i] = (float)(30000.0 - 1) * rand() / (RAND_MAX + 1.0) + 1;
+                //a.push_back((float)(30000.0 - 1) * rand() / (RAND_MAX + 1.0) + 1);
+                //cout << a[i] << " ";
             }
+            //cout << "\n\n====================================\n\n";
+            ct = clock();
+            //insertion_sort(a,n);
+            //selection_sort(a,n);
+            //bubble_sort(a,n);
+            merge_sort(a,0,n-1,a[0]);
+            cs += clock() - ct;
+            /*if(n>100){
+                Beep(5000,500);
+                Beep(5000,500);
+            }*/
         }
-        cout << t+1 << ": ";
-        if(ok) cout << "correct!\n";
-        else cout << "error!!\n";
-    }
-    if(ok) cout << "correct!\n";*/
+        //REP(i,n) cout << a[i] << "\n";
 
-    const int n = 1000000;
-    clock_t ct;
-    REP(i,n){
-        string ts(6,0);
-        REP(j,6){
-            int t = rand() %52;
-            if(t<26) ts[j] = 'A'+t;
-            else ts[j] = 'a'+t-26;
-        }
-        a[i] = b[i] = ts;
-        //cout << a[i] << " ";
+        cout << " " << n << "筆資料, " << "used time: " << 1.0*cs/cnt/CLOCKS_PER_SEC << "\n";
     }
-    //cout << "\n\n====================================\n\n";
-    ct = clock();
-    merge_sort(a,0,n-1,a[0]);
-    ct = clock() - ct;
-    sort(b,b+n);
-    /*REP(i,n) cout << a[i] << " ";
-    cout << "\n\n";
-    REP(i,n) cout << b[i] << " ";
-    cout << "\n\n";*/
-    bool ok = 1;
-    REP(i,n){
-        if(a[i] != b[i]){
-            ok = 0;
-            break;
-        }
-    }
-    if(ok) cout << "OK\n";
-    else cout << "ERROR\n";
-
-    cout << "used time: " << 1.0*ct/CLOCKS_PER_SEC << "\n";
-
     return 0;
 }
